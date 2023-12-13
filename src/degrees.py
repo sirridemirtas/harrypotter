@@ -3,12 +3,12 @@ import matplotlib.pyplot as plt
 import networkx as nx
 import pandas as pd
 
-graph = harry_potter.get_graph(1);
+graph = hp.get_graph()
 
 def draw_degree_graph_directed(G):
     """
     Verilen yönlü grafın iç ve dış derecelerini çizdirir.
-    
+
     Args:
     - G (DiGraph): Yönlü graf (networkx DiGraph türünde).
     """
@@ -18,28 +18,28 @@ def draw_degree_graph_directed(G):
 
     # Grafı çizdirin
     pos = nx.spring_layout(G)
-    nx.draw(G, pos, 
-        with_labels=True, 
-        node_size=700, 
-        node_color="skyblue", 
-        font_size=10, 
-        font_color="black", 
+    nx.draw(G, pos,
+        with_labels=True,
+        node_size=700,
+        node_color="skyblue",
+        font_size=10,
+        font_color="black",
         font_weight="bold"
     )
 
     # İç dereceleri göster
-    nx.draw_networkx_labels(G, pos, 
-        labels=in_degrees, 
-        font_color="red", 
-        font_size=8, 
+    nx.draw_networkx_labels(G, pos,
+        labels=in_degrees,
+        font_color="red",
+        font_size=8,
         font_weight="bold"
     )
 
     # Dış dereceleri göster
-    nx.draw_networkx_labels(G, pos, 
-        labels=out_degrees, 
-        font_color="green", 
-        font_size=8, 
+    nx.draw_networkx_labels(G, pos,
+        labels=out_degrees,
+        font_color="green",
+        font_size=8,
         font_weight="bold"
     )
 
@@ -49,10 +49,10 @@ def draw_degree_graph_directed(G):
 def degree_table_directed(G):
     """
     Verilen yönlü grafın iç ve dış derecelerini bir tablo olarak gösterir.
-    
+
     Args:
     - G (DiGraph): Yönlü graf (networkx DiGraph türünde).
-    
+
     Returns:
     - pd.DataFrame: İç ve dış dereceleri içeren bir DataFrame.
     """
@@ -69,3 +69,27 @@ def degree_table_directed(G):
     df = pd.DataFrame(data)
 
     return df
+
+def write_data_to_file(data, file_path):
+    """
+    Düğüm derecelerini tablo halinde verilen dosyaya yazar.
+
+    Args:
+    - data (pd.DataFrame): Verileri içeren DataFrame.
+    - file_path (str): Dosya yolu.
+    """
+    with open(file_path, "w") as f:
+        # Başlıkları yaz
+        f.write("Node\tIn Degree\tOut Degree\n")
+
+        # Verileri yaz
+        for i in range(len(data["Node"])):
+            node = data["Node"][i]
+            in_degree = data["In Degree"][i]
+            out_degree = data["Out Degree"][i]
+            f.write(f"{node}\t{in_degree}\t{out_degree}\n")
+
+write_data_to_file(
+    degree_table_directed(graph),
+    "./results/degrees.txt"
+)
