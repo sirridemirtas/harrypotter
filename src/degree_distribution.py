@@ -2,7 +2,7 @@ import harry_potter as hp
 import networkx as nx
 import matplotlib.pyplot as plt
 
-graph = hp.get_graph(1);
+graph = hp.get_graph();
 
 def plot_degree_distribution(G):
     in_degrees = dict(G.in_degree())  # İç dereceleri al
