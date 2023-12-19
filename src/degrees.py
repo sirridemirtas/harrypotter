@@ -70,7 +70,7 @@ def degree_table_directed(G):
 
     return df
 
-def write_data_to_file(data, file_path):
+def write_degrees_to_file(data, file_path):
     """
     Düğüm derecelerini tablo halinde verilen dosyaya yazar.
 
@@ -89,7 +89,9 @@ def write_data_to_file(data, file_path):
             out_degree = data["Out Degree"][i]
             f.write(f"{node}\t{in_degree}\t{out_degree}\n")
 
-write_data_to_file(
+    print(f"Derece bilgileri '{file_path}' dosyasına yazdırıldı.")
+
+write_degrees_to_file(
     degree_table_directed(graph),
     "./results/degrees.txt"
 )

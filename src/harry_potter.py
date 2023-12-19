@@ -43,3 +43,32 @@ def get_graph(_book = book):
     matrix = read_matrix_from_file(file_path)
 
     return create_graph_from_matrix(matrix)
+
+
+def read_names_from_file(file_path = "./data/hpnames.txt"):
+    """
+    Verilen TXT dosyasını okuyarak içeriği bir Numpy dizisi olarak döndürür.
+
+    Parameters:
+    - file_path (str): Okunacak TXT dosyasının yolu.
+
+    Returns:
+    - data (np.ndarray): Dosyadaki verileri içeren bir Numpy dizisi.
+    """
+    # TXT dosyasını oku
+    data = np.genfromtxt(
+        file_path, delimiter='\t',
+        dtype=None, names=True,
+        encoding='utf-8'
+    )
+
+    return data
+
+def get_names():
+    """
+    Karakter isimlerini döndürür.
+    """
+    file_path = "./data/hpnames.txt"
+
+    return read_names_from_file(file_path)
+
