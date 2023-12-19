@@ -70,28 +70,21 @@ def degree_table_directed(G):
 
     return df
 
-def write_degrees_to_file(data, file_path):
+# tüm düğümlerin iç ve dış derecelerini bir CSV dosyasına yazar
+def write_degrees_to_csv_file(data, file_path):
     """
-    Düğüm derecelerini tablo halinde verilen dosyaya yazar.
+    Verilen verileri bir CSV dosyasına yazar.
 
     Args:
-    - data (pd.DataFrame): Verileri içeren DataFrame.
-    - file_path (str): Dosya yolu.
+    - data (pd.DataFrame): DataFrame türündeki veri.
+    - file_path (str): CSV dosyasının yolu.
     """
-    with open(file_path, "w") as f:
-        # Başlıkları yaz
-        f.write("Node\tIn Degree\tOut Degree\n")
-
-        # Verileri yaz
-        for i in range(len(data["Node"])):
-            node = data["Node"][i]
-            in_degree = data["In Degree"][i]
-            out_degree = data["Out Degree"][i]
-            f.write(f"{node}\t{in_degree}\t{out_degree}\n")
+    # CSV dosyasına yaz
+    data.to_csv(file_path, index=False)
 
     print(f"Derece bilgileri '{file_path}' dosyasına yazdırıldı.")
 
-write_degrees_to_file(
+write_degrees_to_csv_file(
     degree_table_directed(graph),
-    "./results/degrees.txt"
+    "./results/degrees.csv"
 )
