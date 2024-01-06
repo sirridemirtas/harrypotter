@@ -44,7 +44,6 @@ def get_graph(_book = book):
 
     return create_graph_from_matrix(matrix)
 
-
 def read_names_from_file(file_path = "./data/hpnames.txt"):
     """
     Verilen TXT dosyasını okuyarak içeriği bir Numpy dizisi olarak döndürür.
@@ -55,7 +54,7 @@ def read_names_from_file(file_path = "./data/hpnames.txt"):
     Returns:
     - data (np.ndarray): Dosyadaki verileri içeren bir Numpy dizisi.
     """
-    # TXT dosyasını oku
+
     data = np.genfromtxt(
         file_path, delimiter='\t',
         dtype=None, names=True,
@@ -72,3 +71,10 @@ def get_names():
 
     return read_names_from_file(file_path)
 
+def get_houses():
+    """
+    Karakter hanelerini döndürür.
+    """
+    file_path = "./data/hphouses.txt"
+
+    return read_names_from_file(file_path)
