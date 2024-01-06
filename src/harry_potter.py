@@ -20,6 +20,7 @@ def merge_matrice_files():
     result[result > 0] = 1
 
     np.savetxt("./data/hpbook.txt", result, fmt="%d")
+    print("Birleştirilmiş matris './data/hpbook.txt' dosyasına yazdırıldı.")
 
 def read_matrix_from_file(file_path):
     """
