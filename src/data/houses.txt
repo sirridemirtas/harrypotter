@@ -1,0 +1,5 @@
+"id"	"name"
+1	"Gryffindor"
+2	"Hufflepuff"
+3	"Ravenclaw"
+4	"Slytherin"
