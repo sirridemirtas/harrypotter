@@ -12,8 +12,10 @@ def print_strongly_connected_components(graph = graph):
         print(i)
 
 def draw_strongly_connected_components(graph = graph):
+    print(graph)
+
     nx.draw(graph, with_labels=True)
     plt.show()
 
-print_strongly_connected_components()
+#print_strongly_connected_components()
 draw_strongly_connected_components()

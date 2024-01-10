@@ -59,11 +59,13 @@ def write_all_jaccard_similarity_to_csv_file(output_file):
         for j in graph.nodes():
             if i != j:
                 if (j, i) not in similarity:
-                    similarity[(i, j)] = jaccard_similarity(i, j)
+                    similarity[
+                        graph.nodes[i]["name"],
+                        graph.nodes[j]["name"]
+                    ] = jaccard_similarity(i, j)
 
     # CSV dosyasına yaz
-    df = pd.DataFrame.from_dict(similarity, orient='index', columns=['jaccard_similarity'])
-    #df.index.names = ['node1', 'node2']
+    df = pd.DataFrame.from_dict((similarity), orient='index', columns=["Jacard Benzerliği"])
     df.to_csv(output_file)
 
     print(f"Jaccard benzerlikleri '{output_file}' dosyasına yazdırıldı.")

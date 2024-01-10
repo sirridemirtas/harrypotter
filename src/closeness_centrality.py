@@ -7,3 +7,5 @@ def get_closeness_centrality(graph = graph):
     return nx.closeness_centrality(graph)
 
 print(get_closeness_centrality())
+
+# anlamsız bulunduğu için iptal edildi

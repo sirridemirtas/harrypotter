@@ -7,3 +7,5 @@ def get_betweenness_centrality(graph = graph):
     return nx.betweenness_centrality(graph)
 
 print(get_betweenness_centrality())
+
+# anlamsız bulunduğu için iptal edildi
