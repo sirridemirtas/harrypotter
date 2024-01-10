@@ -45,3 +45,7 @@ def plot_graph_from_df(df):
 
 #plot_graph_from_df(get_degree_centrality(graph))
 write_degree_centrality_to_csv_file(graph, "./results/degree_centrality.csv")
+
+#plot_graph_from_df(pd.read_csv("./results/degree_centrality.csv"))
+
+#anlamsız bulunduğu için iptal edildi
