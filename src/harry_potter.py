@@ -51,6 +51,21 @@ def create_graph_from_matrix(matrix):
 
     return graph
 
+def add_attrs_to_graph(graph):
+    """
+    Verilen grafa hpattributes.txt dosyasındaki özellikleri ekler.
+
+    Args:
+    - graph (nx.DiGraph): Graf.
+    """
+    attrs = get_attrs()
+
+    for node in graph.nodes:
+        for key, value in attrs[node+1].items():
+            graph.nodes[node][key] = value
+
+    return graph
+
 def get_graph(book = 0):
     """
     Verilen kitaba ait yönlü grafı döndürür.
@@ -62,48 +77,59 @@ def get_graph(book = 0):
     file_path = f"./data/hpbook{book if 0 < book < 7 else ''}.txt"
     matrix = read_matrix_from_file(file_path)
 
-    return create_graph_from_matrix(matrix)
+    return add_attrs_to_graph(create_graph_from_matrix(matrix))
 
-def read_names_from_file(file_path = "./data/hpnames.txt"):
-    """
-    Verilen TXT dosyasını okuyarak içeriği bir Numpy dizisi olarak döndürür.
-
-    Parameters:
-    - file_path (str): Okunacak TXT dosyasının yolu.
-
-    Returns:
-    - data (np.ndarray): Dosyadaki verileri içeren bir Numpy dizisi.
-    """
-
-    data = np.genfromtxt(
-        file_path, delimiter='\t',
-        dtype=None, names=True,
-        encoding='utf-8'
-    )
-
-    return data
+def get_houses():
+    return {
+        "1": "Gryffindor",
+        "2": "Hufflepuff",
+        "3": "Ravenclaw",
+        "4": "Slytherin"
+    }
 
 def get_names():
     """
-    Karakter isimlerini döndürür.
+    Karakterlerin isimlerini okur ve sözlük olarak döndürür.
     """
     file_path = "./data/hpnames.txt"
+    names = {}
 
-    return read_names_from_file(file_path)
+    with open(file_path, "r") as file:
+        lines = file.readlines()
+        lines = lines[1:] #ilk satırı atla
 
-def get_houses():
+        for line in lines:
+            line = line.strip()
+            line = line.replace('"', "")
+            line = line.split("\t")
+
+            names[(line[0])] = line[1]
+
+    return names
+
+def get_attrs():
     """
-    Karakter hanelerini döndürür.
+    Karakterlerin özelliklerini okur ve sözlük olarak döndürür.
     """
-    file_path = "./data/hphouses.txt"
+    file_path = "./data/hpattributes.txt"
+    characters = {}
 
-    return read_names_from_file(file_path)
+    names = get_names()
+    houses = get_houses()
 
-"""merge_matrice_files()
-x = 0
-for i in range(1, 7):
-    print(i, ": ", get_graph(i))
-    x += get_graph(i).number_of_edges()
+    with open(file_path, "r") as file:
+        lines = file.readlines()
+        lines = lines[1:] #ilk satırı atla
 
-print("toplam kenar sayısı: ", x)
-print("farklı toplam kenar sayısı: ", get_graph())"""
+        for line in lines:
+            line = line.strip()
+            line = line.replace('"', "")
+            line = line.split("\t")
+
+            characters[int(line[0])] = {
+                "schoolyear": line[1:][0],
+                "gender": line[1:][1],
+                "house": houses[line[1:][2]],
+                "name": names[line[0]]
+            }
+    return characters
