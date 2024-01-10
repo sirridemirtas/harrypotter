@@ -10,11 +10,17 @@ def get_degree_centrality(graph):
     # Derece merkeziliğini hesapla
     degree_centrality = nx.degree_centrality(graph)
 
-    # DataFrame oluştur
     df = pd.DataFrame(
         list(degree_centrality.items()),
         columns=["Node", "Degree Centrality"]
     )
+
+    # id bilgilerini isim ile değiştir
+    # oluşan hata incelenecek
+    for i in range(len(df)):
+        name = graph.nodes[i]["name"]
+        df["Node"][i] = name
+
     return df
 
 def write_degree_centrality_to_csv_file(graph, output_file):

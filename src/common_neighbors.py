@@ -3,6 +3,7 @@ import networkx as nx
 import pandas as pd
 
 graph = hp.get_graph()
+names = hp.get_names()
 
 def calc_common_neighbors(graph, node1, node2):
     set1 = set(graph.neighbors(node1))
@@ -18,9 +19,10 @@ def calc_all_common_neighbors(graph = graph):
         for j in nodes:
             if i != j:
                 if (j, i) not in common_neighbors:
-                    common_neighbors[(
-                        graph.nodes[i]["name"],
-                        graph.nodes[j]["name"])
+                    common_neighbors[
+                        #(graph.nodes[i]["name"],
+                        #graph.nodes[j]["name"])
+                        i, j
                     ] = calc_common_neighbors(graph, i, j)
     return common_neighbors
 
@@ -30,7 +32,8 @@ def write_all_common_neighbors_to_csv_file(graph, output_file):
         list(common_neighbors.items()),
         columns=["Karakter Çifti", "Ortak Komşular"]
     )
+    df["Karakter Çifti"] = df["Karakter Çifti"].apply(lambda x: (names[str(x[0]+1)], names[str(x[1]+1)]))
     df.to_csv(output_file, index=False)
-    print(f"Her düğüm çifti için ortak komşuluk bilgileri '{output_file}' dosyasına yazdırıldı.")
+    print(f"Her düğüm çifti için ortak komşular '{output_file}' dosyasına yazdırıldı.")
 
 write_all_common_neighbors_to_csv_file(graph, "./results/common_neighbors.csv")
