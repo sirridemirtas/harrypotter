@@ -62,9 +62,10 @@ def degree_table_directed(G):
 
     # Verileri bir DataFrame'e dönüştürün
     data = {
-        "Node": list(G.nodes()),
-        "In Degree": list(in_degrees.values()),
-        "Out Degree": list(out_degrees.values())
+        "Karakter": list(get_names().values()),
+        "İç Derece": list(in_degrees.values()),
+        "Dış Derece": list(out_degrees.values()),
+        "Derece": [in_degrees[i] + out_degrees[i] for i in range(len(in_degrees))]
     }
     df = pd.DataFrame(data)
 

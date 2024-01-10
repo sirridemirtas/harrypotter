@@ -18,14 +18,17 @@ def calc_all_common_neighbors(graph = graph):
         for j in nodes:
             if i != j:
                 if (j, i) not in common_neighbors:
-                    common_neighbors[(i, j)] = calc_common_neighbors(graph, i, j)
+                    common_neighbors[(
+                        graph.nodes[i]["name"],
+                        graph.nodes[j]["name"])
+                    ] = calc_common_neighbors(graph, i, j)
     return common_neighbors
 
 def write_all_common_neighbors_to_csv_file(graph, output_file):
     common_neighbors = calc_all_common_neighbors(graph)
     df = pd.DataFrame(
         list(common_neighbors.items()),
-        columns=["Node", "Common Neighbors"]
+        columns=["Karakter Çifti", "Ortak Komşular"]
     )
     df.to_csv(output_file, index=False)
     print(f"Her düğüm çifti için ortak komşuluk bilgileri '{output_file}' dosyasına yazdırıldı.")
