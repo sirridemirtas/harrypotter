@@ -3,30 +3,28 @@ import networkx as nx
 
 graph = hp.get_graph()
 
-"""Tüm düğümler kenara sahip olmadığı için, kenara sahip olmayan
-düğümler çıkarılıp ortalama yol uzunluğu hesaplanacak"""
+def average_path_length_for_weakly_connected(graph):
+    weakly_connected_components = list(nx.weakly_connected_components(graph))
 
-"""Graf güçlü bağlı (strongly connected) olmadığı için ortalama yol
-uzunluğu hesaplanamıyor"""
+    if len(weakly_connected_components) == 1:
+        # Zayıf bağlı bileşen yoksa ortalama yol uzunluğu hesaplanamaz.
+        return None
 
-"""# grafı güçlü bağlı bileşenlerine ayırıyoruz
-def get_strongly_connected_components(graph = graph):
-    return nx.strongly_connected_components(graph)
+    total_path_length = 0
+    total_paths = 0
 
-def remove_nodes_without_edges(graph = graph):
-    nodes_without_edges = []
-    for node in graph.nodes():
-        if graph.degree(node) == 0:
-            nodes_without_edges.append(node)
-    graph.remove_nodes_from(nodes_without_edges)
-    return graph
+    for component in weakly_connected_components:
+        subgraph = graph.subgraph(component)
+        if nx.is_strongly_connected(subgraph):
+            # Zayıf bağlı bileşenin içinde güçlü bağlı bileşen varsa, ortalama uzunluğa katma.
+            total_path_length += nx.average_shortest_path_length(subgraph)
+            total_paths += 1
 
-def get_average_path_length(graph = graph):
-    return nx.average_shortest_path_length(
-        remove_nodes_without_edges(graph)
-    )
+    if total_paths == 0:
+        # Hiç güçlü bağlı bileşen yoksa, ortalama yol uzunluğu hesaplanamaz.
+        return None
 
-#her bir güçlü bağlı bileşen için ortalama yol uzunluğu hesaplanıyor
-for component in get_strongly_connected_components():
-    print(get_average_path_length(graph.subgraph(component)))
-"""
+    return total_path_length / total_paths
+
+result = average_path_length_for_weakly_connected(graph)
+print(result)
