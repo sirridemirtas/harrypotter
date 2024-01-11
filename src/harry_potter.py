@@ -133,3 +133,50 @@ def get_attrs():
                 "name": names[line[0]]
             }
     return characters
+
+def visualize_digraph_with_labels_and_colors(graph):
+    pos = nx.circular_layout(graph)
+
+    # Düğüm isimlerini al
+    node_labels = nx.get_node_attributes(graph, "name")
+
+    # Ev (house) özniteliğini al
+    house_colors = nx.get_node_attributes(graph, "house")
+
+    # Evlere göre renkler
+    color_map = {
+        "Gryffindor": "#c79999",
+        "Hufflepuff": "#ffef99",
+        "Ravenclaw": "#9fa3b3",
+        "Slytherin": "#a3b5aa"
+    }
+    node_colors = [color_map[house_colors[node]] for node in graph.nodes()]
+
+    # Düğümleri çiz
+    nx.draw(graph, pos,
+        with_labels=False,
+        node_size=400,
+        node_color=node_colors,
+        font_size=8,
+        alpha=1
+    )
+
+    # Düğüm isimlerini düğümlerin üzerine yaz
+    nx.draw_networkx_labels(graph, pos,
+        labels=node_labels,
+        font_color="#000",
+        font_size=8,
+        font_family="sans-serif"
+    )
+
+    # Oklar
+    edges = graph.edges()
+    edge_colors = [color_map[house_colors[edge[0]]] for edge in edges]
+    nx.draw_networkx_edges(graph, pos,
+        edgelist=edges,
+        edge_color=edge_colors,
+        alpha=0.5
+    )
+
+    plt.axis("off")
+    plt.show()
